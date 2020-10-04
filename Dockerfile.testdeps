@@ -1,0 +1,11 @@
+# syntax = docker/dockerfile:experimental
+ARG atom
+FROM gentoo/portage AS portage
+FROM builder:${atom}-deps
+ARG atom
+ENV FEATURES="-cgroup -sandbox -usersandbox -ipc-sandbox -pid-sandbox"
+RUN \
+ --mount=type=tmpfs,target=/var/tmp/portage \
+ --mount=type=bind,from=portage,source=/var/db/repos/gentoo,target=/var/db/repos/gentoo,rw \
+ emerge --onlydeps --with-test-deps \
+  --verbose --quiet-build --jobs=4 --oneshot ${atom}
