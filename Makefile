@@ -28,6 +28,22 @@ emerge_pkg = $(DOCKER) build ./  \
 .PHONY: usage
 usage:
 	@echo "Please specify a target"
+	@echo Usage:
+	@echo "	pull:		download gentoo stage3 for your architecture and portage tree"
+	@echo "	builder:	update stage3 to latest and greatest and create builder image"
+	@echo "	<pkg>:		build <pkg> and run tests"
+	@echo "	<pkg>-deps:	install <pkg> deps (--onlydeps emerge option)"
+	@echo "	<pkg>-testdeps:	install <pkg> testdeps ( --with-test-deps emerge option)"
+	@echo "	<pkg>-pkg:	build a package and save to ./binpkgs-<pkg>-pkg"
+	@echo "	mrproper:	purge all system images and containers (DANGEROUS!!!)"
+	@echo "	clean:		purge all containers (DANGEROUS!!!)"
+	@echo "Example 1:"
+	@echo "	make portage-test"
+	@echo "		Will build latest stable portage and run tests."
+	@echo "Example 2:"
+	@echo "	DOCKER_HOST="ssh://remote-machine" make bash-pkg"
+	@echo "		Will build latest stable bash save package to ./binpkgs-bash-pkg"
+
 
 .PHONY: Makefile
 
