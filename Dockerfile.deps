@@ -1,10 +1,11 @@
 # syntax = docker/dockerfile:experimental
 FROM gentoo/portage AS portage
-FROM builder:latest
+FROM gendo-builder:latest
 ARG atom
-ENV FEATURES="-cgroup -sandbox -usersandbox -ipc-sandbox -pid-sandbox"
+ENV FEATURES="-cgroup -sandbox -usersandbox -ipc-sandbox -network-sandbox -pid-sandbox"
 RUN \
  --mount=type=tmpfs,target=/var/tmp/portage \
  --mount=type=bind,from=portage,source=/var/db/repos/gentoo,target=/var/db/repos/gentoo,rw \
  emerge --onlydeps \
-  --verbose --quiet-build --jobs=4 --oneshot ${atom}
+  --verbose --quiet-build --jobs=4 --oneshot ${atom/_/\/}
+LABEL gendo=deps
